@@ -113,42 +113,17 @@ FROM Sales
 GROUP BY country 
 -- We have 5 countries in the dataset = Germany, United States, Australia, United Kingdom, Canada, France 
 --Australia got the highest Revenue from 2011 - 2016
---UK and France got the lowst, tied at 13740
+--UK and France got the lowest, tied at 13740
 
 Select Country, MAx(Profit) as "Profit by country"
 FROM Sales
 GROUP BY country 
 -- Australia got the highest 
--- UK and France got the lowst, tied at 5056
+-- UK and France got the lowest, tied at 5056
 
 Select Country, MAx(Cost) AS "Cost by country"
 FROM Sales
 GROUP BY country 
 -- Australia obtained the highest amount, while the others received an equal sum of "8684."
 
-
---Let's answer the following
---What is the most common age group among bicycle buyers?
---Which specific bike model had the highest sales each year from 2011 to 2016?
---In which month do bicycle sales peak?
---During which month do bicycle sales decline?
---Which gender accounted for the highest number of bicycle purchases from 2011 to 2016, broken down by each year?
---Which state within each country had the highest number of bicycle purchases?
-
-Select SUM(Revenue) as "Revenue per age group", Age_Group
-FROM Sales
-GROUP By Age_Group --As we can see here, most of revenue comes from Adults(35-64)
-
-Select  SUM(Order_Quantity)
-FROM Sales
-Where Customer_Age BETWEEN 35 and  64
-
-Select  Customer_Age, SUM(Order_Quantity) AS "rder_ quantiyby age"
-FROM Sales
-Where Customer_Age Between 40 and 50
-GROUP By Customer_Age
-Order by SUM(Order_Quantity) DESC
-
-Select *
-From Sales
 
