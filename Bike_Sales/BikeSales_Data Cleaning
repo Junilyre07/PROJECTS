@@ -1,0 +1,154 @@
+Select *
+FROM Sales
+
+--Counting the number of observations / rows
+Select COUNT(*) AS "Number_of_Rows"
+FROM Sales
+
+--Checking NULL Values ( No NULL Values in the dateset)
+Select *
+FROM Sales
+WHERE Date IS NULL
+AND Day IS NULL
+AND Month IS NULL
+AND Year IS NULL
+AND Customer_Age IS NULL
+AND Age_Group IS NULL
+AND Country IS NULL
+AND State IS NULL
+AND Product_Category IS NULL
+AND Sub_Category IS NULL
+AND Product IS NULL
+AND Order_Quantity IS NULL
+AND Unit_Cost IS NULL
+AND Unit_Price IS NULL
+AND Profit IS NULL
+AND Cost IS NULL
+AND Revenue IS NULL;
+
+
+
+--Checking duplicates 
+Select s1.*
+FROM Sales s1
+INNER JOIN
+(
+  SELECT Date, Day, Month, Year, Customer_Age, Age_Group, Customer_Gender, Country, State, Product_Category, Sub_Category, Product, Order_Quantity, Unit_Cost, Unit_Price, Profit, Cost, Revenue
+  FROM Sales
+  GROUP BY Date, Day, Month, Year, Customer_Age, Age_Group, Customer_Gender, Country, State, Product_Category, Sub_Category, Product, Order_Quantity, Unit_Cost, Unit_Price, Profit, Cost, Revenue
+  HAVING COUNT(*) > 1
+) s2
+ON s1.Date = s2.Date
+   AND s1.Day = s2.Day
+   AND s1.Month = s2.Month
+   AND s1.Year = s2.Year
+   AND s1.Customer_Age = s2.Customer_Age
+   AND s1.Age_Group = s2.Age_Group
+   AND s1.Customer_Gender = s2.Customer_Gender
+   AND s1.Country = s2.Country
+   AND s1.State = s2.State
+   AND s1.Product_Category = s2.Product_Category
+   AND s1.Sub_Category = s2.Sub_Category
+   AND s1.Product = s2.Product
+   AND s1.Order_Quantity = s2.Order_Quantity
+   AND s1.Unit_Cost = s2.Unit_Cost
+   AND s1.Unit_Price = s2.Unit_Price
+   AND s1.Profit = s2.Profit
+   AND s1.Cost = s2.Cost
+   AND s1.Revenue = s2.Revenue
+Order by Date;
+
+--Deleting duplicates 
+Delete s1
+FROM Sales s1
+INNER JOIN
+(
+  SELECT Date, Day, Month, Year, Customer_Age, Age_Group, Customer_Gender, Country, State, Product_Category, Sub_Category, Product, Order_Quantity, Unit_Cost, Unit_Price, Profit, Cost, Revenue
+  FROM Sales
+  GROUP BY Date, Day, Month, Year, Customer_Age, Age_Group, Customer_Gender, Country, State, Product_Category, Sub_Category, Product, Order_Quantity, Unit_Cost, Unit_Price, Profit, Cost, Revenue
+  HAVING COUNT(*) > 1
+) s2
+ON s1.Date = s2.Date
+   AND s1.Day = s2.Day
+   AND s1.Month = s2.Month
+   AND s1.Year = s2.Year
+   AND s1.Customer_Age = s2.Customer_Age
+   AND s1.Age_Group = s2.Age_Group
+   AND s1.Customer_Gender = s2.Customer_Gender
+   AND s1.Country = s2.Country
+   AND s1.State = s2.State
+   AND s1.Product_Category = s2.Product_Category
+   AND s1.Sub_Category = s2.Sub_Category
+   AND s1.Product = s2.Product
+   AND s1.Order_Quantity = s2.Order_Quantity
+   AND s1.Unit_Cost = s2.Unit_Cost
+   AND s1.Unit_Price = s2.Unit_Price
+   AND s1.Profit = s2.Profit
+   AND s1.Cost = s2.Cost
+   AND s1.Revenue = s2.Revenue
+
+Select *
+FROM Sales
+Order by date
+
+-- Let's do some EDA
+
+--Checking the number of rows. There are 113036 rows in the dataset.
+SELECT COUNT(*) AS "number of rows"
+FROM Sales;
+
+--Let's do some Exploratory Data Analysis
+
+
+Select MAX(Year)
+FROM Sales;
+--2016 is the most recent year in the dataset.
+
+Select MIN(Year)
+FROM Sales;
+--2011 is the earliest year in the dataset. 
+
+Select Country, MAx(Revenue) AS "Revenue per country"
+FROM Sales
+GROUP BY country 
+-- We have 5 countries in the dataset = Germany, United States, Australia, United Kingdom, Canada, France 
+--Australia got the highest Revenue from 2011 - 2016
+--UK and France got the lowst, tied at 13740
+
+Select Country, MAx(Profit) as "Profit by country"
+FROM Sales
+GROUP BY country 
+-- Australia got the highest 
+-- UK and France got the lowst, tied at 5056
+
+Select Country, MAx(Cost) AS "Cost by country"
+FROM Sales
+GROUP BY country 
+-- Australia obtained the highest amount, while the others received an equal sum of "8684."
+
+
+--Let's answer the following
+--What is the most common age group among bicycle buyers?
+--Which specific bike model had the highest sales each year from 2011 to 2016?
+--In which month do bicycle sales peak?
+--During which month do bicycle sales decline?
+--Which gender accounted for the highest number of bicycle purchases from 2011 to 2016, broken down by each year?
+--Which state within each country had the highest number of bicycle purchases?
+
+Select SUM(Revenue) as "Revenue per age group", Age_Group
+FROM Sales
+GROUP By Age_Group --As we can see here, most of revenue comes from Adults(35-64)
+
+Select  SUM(Order_Quantity)
+FROM Sales
+Where Customer_Age BETWEEN 35 and  64
+
+Select  Customer_Age, SUM(Order_Quantity) AS "rder_ quantiyby age"
+FROM Sales
+Where Customer_Age Between 40 and 50
+GROUP By Customer_Age
+Order by SUM(Order_Quantity) DESC
+
+Select *
+From Sales
+
